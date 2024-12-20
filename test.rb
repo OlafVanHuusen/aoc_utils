@@ -1,7 +1,8 @@
 require 'aoc_utils'
 
 def main
-  puts AocUtils.read_ints('test.txt')
+  a, b = AocUtils.read_two_parts('test.txt', 'String', 'String')
+  test = 1
 end
 
 main

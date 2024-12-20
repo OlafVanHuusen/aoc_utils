@@ -15,7 +15,7 @@ module AocUtils
 
   # extracts all strings from the specified file
   # @param filename [String] the name of the file to read from
-  # @return [Array<String>] an array of all the lines read from the file as strings with no leading or trailing whitespace
+  # @return [Array<String>] an array of all the lines read from the file as an array of strings with no leading or trailing whitespace split by commas in the original file
   def self.read_strings(filename)
     strings = []
     File.open(filename).each_line do |line|
@@ -49,9 +49,10 @@ module AocUtils
     when "Integer"
       part1 = part1.map { |line| line.scan(/-?\d+/).map(&:to_i) }
     when "String"
-      part1 = part1.map(&:strip.split(",").map(&:strip))
+      part1 = part1.map { |string| string.split(",").map(&:strip) }
     when "Char"
-      part1 = part1.map(&:strip.chars)
+      part1.strip!
+      part1 = part1.map(&:chars)
     else
       raise "Invalid datatype"
     end
@@ -59,10 +60,43 @@ module AocUtils
     when "Integer"
       part2 = part2.map { |line| line.scan(/-?\d+/).map(&:to_i) }
     when "String"
-      part2 = part2.map(&:strip.split(",").map(&:strip))
+      part2 = part2.map { |string| string.split(",").map(&:strip) }
     when "Char"
+      part2.strip!
       part2 = part2.map(&:chars)
     end
     [part1, part2]
   end
+
+  # provides methods for working with a maze. The maze is represented as a 2D array of characters where '#' represents a wall and '.' represents an empty space
+  class MazeUtils
+
+    def self.find_char(maze)
+      maze.each_with_index do |row, y|
+        row.each_with_index do |cell, x|
+          return [x, y] if yield(cell)
+        end
+      end
+    end
+
+    def self.calculate_distance_to_point(maze, point)
+      maze[point[1]][point[0]] = 0
+      queue = [point]
+      until queue.empty?
+        current = queue.shift
+        value = maze[current[1]][current[0]]
+        [[-1, 0], [1, 0], [0, -1], [0, 1]].each do |direction|
+          new_coordinate = [current[0] + direction[0], current[1] + direction[1]]
+          if new_coordinate[0] < 0 || new_coordinate[0] >= maze[0].length || new_coordinate[1] < 0 || new_coordinate[1] >= maze.length
+            next
+          end
+          if maze[new_coordinate[1]][new_coordinate[0]] == "."
+            maze[new_coordinate[1]][new_coordinate[0]] = value + 1
+            queue.push(new_coordinate)
+          end
+        end
+      end
+    end
+  end
 end
+

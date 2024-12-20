@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "aoc_utils"
-  s.version = "0.1.3"
+  s.version = "0.1.5"
   s.authors = ["Lennard Clicque"]
   s.email = "l.clicque@gmail.com"
   s.summary = "A collection of utility methods for Advent of Code"
