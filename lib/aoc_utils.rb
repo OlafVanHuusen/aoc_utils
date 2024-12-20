@@ -19,7 +19,7 @@ module AocUtils
   def self.read_strings(filename)
     strings = []
     File.open(filename).each_line do |line|
-      strings << line.strip
+      strings << line.strip.split(",").map(&:strip)
     end
     strings
   end
@@ -49,7 +49,7 @@ module AocUtils
     when "Integer"
       part1 = part1.map { |line| line.scan(/-?\d+/).map(&:to_i) }
     when "String"
-      part1 = part1.map(&:strip)
+      part1 = part1.map(&:strip.split(",").map(&:strip))
     when "Char"
       part1 = part1.map(&:strip.chars)
     else
@@ -59,7 +59,7 @@ module AocUtils
     when "Integer"
       part2 = part2.map { |line| line.scan(/-?\d+/).map(&:to_i) }
     when "String"
-      part2 = part2.map(&:strip)
+      part2 = part2.map(&:strip.split(",").map(&:strip))
     when "Char"
       part2 = part2.map(&:chars)
     end
