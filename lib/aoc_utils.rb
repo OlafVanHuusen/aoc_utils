@@ -49,7 +49,7 @@ module AocUtils
     when "Integer"
       part1 = part1.map { |line| line.scan(/-?\d+/).map(&:to_i) }
     when "String"
-      part1 = part1.map { |string| string.split(",").map(&:strip) }
+      part1 = part1.map { |string| string.split(",").map(&:strip) }.flatten
     when "Char"
       part1.strip!
       part1 = part1.map(&:chars)
@@ -60,7 +60,7 @@ module AocUtils
     when "Integer"
       part2 = part2.map { |line| line.scan(/-?\d+/).map(&:to_i) }
     when "String"
-      part2 = part2.map { |string| string.split(",").map(&:strip) }
+      part2 = part2.map { |string| string.split(",").map(&:strip) }.flatten
     when "Char"
       part2.strip!
       part2 = part2.map(&:chars)
