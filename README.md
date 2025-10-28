@@ -28,7 +28,7 @@ gem install aoc_utils
 require 'aoc_utils'
 ```
 
-## API Documentation
+## Documentation
 
 ### File Reading Methods
 
@@ -172,7 +172,7 @@ AocUtils::MazeUtils.calculate_distance_to_point(maze, [1, 1])
 
 ## License
 
-This gem is available as open source.
+This gem is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Contributing
 
