@@ -1,5 +1,7 @@
 # Desc: Utility functions for Advent of Code problems
 module AocUtils
+
+
   # extracts all integers from the specified file
   # @param filename [String] the name of the file to read from
   # @param other_characters [Array<String>] will save the first non integer character in the line for further usage
@@ -44,14 +46,14 @@ module AocUtils
     lines = File.open(filename).readlines.map(&:strip)
     index = lines.index("")
     part1 = lines[0...index]
-    part2 = lines[(index + 1)..-1]
+    part2 = lines[(index + 1)..]
     case datatype1
     when "Integer"
       part1 = part1.map { |line| line.scan(/-?\d+/).map(&:to_i) }
     when "String"
       part1 = part1.map { |string| string.split(",").map(&:strip) }.flatten
     when "Char"
-      part1.strip!
+      part1.map!(&:strip)
       part1 = part1.map(&:chars)
     else
       raise "Invalid datatype"
@@ -62,7 +64,7 @@ module AocUtils
     when "String"
       part2 = part2.map { |string| string.split(",").map(&:strip) }.flatten
     when "Char"
-      part2.strip!
+      part2.map!(&:strip)
       part2 = part2.map(&:chars)
     end
     [part1, part2]
