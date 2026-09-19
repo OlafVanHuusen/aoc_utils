@@ -43,9 +43,8 @@ Reads a file and returns the integers on each line (negatives included) as one a
 As a side effect it appends, into the optional `other_characters` array, the first character of each line that is not a digit or whitespace — note this includes a leading `-`, so a line beginning with a negative number records `"-"`, and a line with no such character records `nil`.
 
 ```ruby
-# input.txt:
-#   1 2 3
-#   4 5 6
+File.write("input.txt", "1 2 3\n4 5 6\n")
+
 AocUtils.read_ints("input.txt")
 # => [[1, 2, 3], [4, 5, 6]]
 
@@ -60,9 +59,8 @@ AocUtils.read_ints("input.txt", markers)
 Reads a file and returns, for each line, the comma-separated fields with surrounding whitespace stripped.
 
 ```ruby
-# input.txt:
-#   apple, banana, cherry
-#   dog, cat
+File.write("input.txt", "apple, banana, cherry\ndog, cat\n")
+
 AocUtils.read_strings("input.txt")
 # => [["apple", "banana", "cherry"], ["dog", "cat"]]
 ```
@@ -72,9 +70,8 @@ AocUtils.read_strings("input.txt")
 Reads a file and returns each line as an array of its individual characters (line stripped first).
 
 ```ruby
-# input.txt:
-#   ABC
-#   DEF
+File.write("input.txt", "ABC\nDEF\n")
+
 AocUtils.read_chars("input.txt")
 # => [["A", "B", "C"], ["D", "E", "F"]]
 ```
@@ -92,12 +89,8 @@ Per-type parsing of a section:
 - `"Char"` → each line becomes an array of its characters: `Array<Array<String>>`.
 
 ```ruby
-# input.txt:
-#   1 2 3
-#   4 5 6
-#
-#   apple, banana
-#   cherry, date
+File.write("input.txt", "1 2 3\n4 5 6\n\napple, banana\ncherry, date\n")
+
 part1, part2 = AocUtils.read_two_parts("input.txt", "Integer", "String")
 # part1 => [[1, 2, 3], [4, 5, 6]]
 # part2 => ["apple", "banana", "cherry", "date"]   # note: flattened
@@ -134,7 +127,9 @@ When no cell matches, the method returns the `maze` array itself (the return val
 
 Fills a maze in place with the breadth-first (shortest-path) distance from `point` (`[x, y]`) to every reachable open cell.
 
-The starting cell is set to `0` and every reachable `'.'` cell is overwritten with its integer distance; walls (`'#'`) are left untouched. The method mutates `maze` and returns `nil`.
+The starting cell is set to `0` and every reachable `'.'` cell is overwritten with its integer distance. Every other wall (`'#'`) is left untouched — **but the starting cell is always overwritten with `0`, even when it is a wall**, because the method writes it unconditionally before the search begins. The method mutates `maze` and returns `nil`.
+
+In the example below the starting point `[1, 1]` is the center wall, and it becomes `0` in the result.
 
 ```ruby
 maze = [['.', '.', '.'],
